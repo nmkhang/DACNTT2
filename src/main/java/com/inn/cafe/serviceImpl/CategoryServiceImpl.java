@@ -104,5 +104,21 @@ public class CategoryServiceImpl implements CategoryService {
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> deleteCategory(Integer id) {
+        try {
+            Optional optional = categoryDao.findById(id);
+            if (!optional.isEmpty()){
+                categoryDao.deleteById(id);
+                return CafeUtils.getResponseEntity("Category Deleted Successfully",HttpStatus.OK);
+
+            }
+            return CafeUtils.getResponseEntity("Category id does not exist",HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }

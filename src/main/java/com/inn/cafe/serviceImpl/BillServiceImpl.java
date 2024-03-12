@@ -22,6 +22,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -74,7 +75,7 @@ public class BillServiceImpl implements BillService {
                 document.add(table);
 
                 Paragraph footer = new Paragraph("Total: "+requestMap.get("totalAmount")+"\n"
-                +"Thank you for visiting. Please visit again !!",getFont("Data"));
+                +"Thank you for visiting. Please visit again!!",getFont("Data"));
 
                 document.add(footer);
                 document.close();
@@ -82,7 +83,7 @@ public class BillServiceImpl implements BillService {
                 return new ResponseEntity<>("{\"uuid\":\""+fileName+"\"}",HttpStatus.OK);
 
             }
-            return CafeUtils.getResponseEntity("Required data not found.",HttpStatus.BAD_REQUEST);
+            return CafeUtils.getResponseEntity("Data required not found",HttpStatus.BAD_REQUEST);
         }catch (Exception ex){
             ex.printStackTrace();
         }
@@ -163,7 +164,7 @@ public class BillServiceImpl implements BillService {
     }
 
     private boolean validateRequestMap(Map<String, Object> requestMap) {
-        return requestMap.containsKey("name") && requestMap.containsKey("contactNumber") && requestMap.containsKey("email") &&
+        return  requestMap.containsKey("name") && requestMap.containsKey("contactNumber") && requestMap.containsKey("email") &&
                 requestMap.containsKey("paymentMethod") && requestMap.containsKey("productDetail") &&
                 requestMap.containsKey("totalAmount");
     }
@@ -210,5 +211,23 @@ public class BillServiceImpl implements BillService {
         targetStream.close();
         return byteArray;
     }
+
+    @Override
+    public ResponseEntity<String> deleteBill(Integer id) {
+        try {
+            Optional optional = billDao.findById(id);
+            if (!optional.isEmpty()){
+                billDao.deleteById(id);
+                return CafeUtils.getResponseEntity("Xoá thành công",HttpStatus.OK);
+
+            }
+            return CafeUtils.getResponseEntity("Mã hóa đơn không tồn tại",HttpStatus.OK);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
 
 }

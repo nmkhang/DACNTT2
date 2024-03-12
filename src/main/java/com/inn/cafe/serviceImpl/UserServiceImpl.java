@@ -200,4 +200,24 @@ public class UserServiceImpl implements UserService {
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> deleteUser(Integer id) {
+        try {
+            if (jwtFilter.isAdmin()){
+                Optional optional = userDao.findById(id);
+                if (!optional.isEmpty()){
+                    userDao.deleteById(id);
+                    return CafeUtils.getResponseEntity("User Deleted Successfully",HttpStatus.OK);
+                }else {
+                    return CafeUtils.getResponseEntity("User is does not exist.",HttpStatus.OK);
+                }
+            }else {
+                return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
