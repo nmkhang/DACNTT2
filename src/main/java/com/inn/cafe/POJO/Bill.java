@@ -49,6 +49,9 @@ public class Bill implements Serializable {
     @Column(name = "createdBy")
     private String createdBy;
 
+    @Column(name = "createdAt")
+    private  String createdAt;
+
 
 
 

@@ -3,10 +3,13 @@ package com.inn.cafe.serviceImpl;
 import com.google.common.base.Strings;
 import com.inn.cafe.JWT.JwtFilter;
 import com.inn.cafe.POJO.Category;
+import com.inn.cafe.POJO.Product;
 import com.inn.cafe.constents.CafeConstants;
 import com.inn.cafe.dao.CategoryDao;
+import com.inn.cafe.dao.ProductDao;
 import com.inn.cafe.service.CategoryService;
 import com.inn.cafe.utils.CafeUtils;
+import com.inn.cafe.wrapper.ProductWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     JwtFilter jwtFilter;
+
+    @Autowired
+    ProductDao productDao;
 
     @Override
     public ResponseEntity<String> addNewCategory(Map<String, String> requestMap) {
@@ -109,6 +115,10 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             Optional optional = categoryDao.findById(id);
             if (!optional.isEmpty()){
+                List<ProductWrapper> productList =  productDao.getProductByCategory(id);
+                for (ProductWrapper i : productList){
+                    productDao.deleteById(i.getId());
+                }
                 categoryDao.deleteById(id);
                 return CafeUtils.getResponseEntity("Category Deleted Successfully",HttpStatus.OK);
 

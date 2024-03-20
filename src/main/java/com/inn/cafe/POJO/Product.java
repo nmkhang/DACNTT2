@@ -15,6 +15,9 @@ import java.io.Serializable;
 
 @NamedQuery(name = "Product.getProductById",query = "select new com.inn.cafe.wrapper.ProductWrapper(p.id,p.name,p.description,p.price) from Product p where p.id =: id")
 
+@NamedQuery(name = "Product.deleteProductByCategory",query = "delete from Product p where p.category.id =:id ")
+
+
 @Data
 @Entity
 @DynamicInsert
@@ -44,6 +47,5 @@ public class Product implements Serializable {
 
     @Column(name = "status")
     private String status;
-
 
 }
