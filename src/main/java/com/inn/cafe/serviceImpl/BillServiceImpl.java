@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Stream;
@@ -36,6 +38,7 @@ public class BillServiceImpl implements BillService {
     @Override
     public ResponseEntity<String> generateReport(Map<String, Object> requestMap) {
         log.info("Inside generateReport");
+
         try {
             String fileName;
             if (validateRequestMap(requestMap)){
@@ -47,7 +50,8 @@ public class BillServiceImpl implements BillService {
                     insertBill(requestMap);
                 }
                 String data = "Name: "+ requestMap.get("name")+"\n"+"Contact Number: "+requestMap.get("contactNumber")+
-                        "\n"+"Email: "+requestMap.get("email")+"\n"+"Payment Method: "+requestMap.get("paymentMethod");
+                        "\n"+"Email: "+requestMap.get("email")+"\n"+"Payment Method: "+requestMap.get("paymentMethod")+
+                        "\n"+"Create at: " + requestMap.get("createdAt");
 
                 Document document = new Document();
                 PdfWriter.getInstance(document, new FileOutputStream(CafeConstants.STORE_LOCATION+"\\"+fileName+".pdf"));
@@ -62,7 +66,7 @@ public class BillServiceImpl implements BillService {
                 Paragraph paragraph = new Paragraph(data+"\n \n",getFont("Data"));
                 document.add(paragraph);
 
-                PdfPTable table = new PdfPTable(6);
+                PdfPTable table = new PdfPTable(5);
                 table.setWidthPercentage(100);
                 addTableHeader(table);
 
@@ -95,14 +99,12 @@ public class BillServiceImpl implements BillService {
         table.addCell((String) data.get("quantity"));
         table.addCell(Double.toString((Double)data.get("price")));
         table.addCell(Double.toString((Double)data.get("total")));
-        table.addCell((String) data.get("createdAt"));
-
-
+//        table.addCell((String) data.get("createdAt"));
     }
 
     private void addTableHeader(PdfPTable table) {
         log.info("Inside addTableHeader");
-        Stream.of("Name","Category","Quantity","Price","Create At","Sub Total")
+        Stream.of("Name","Category","Quantity","Price","Sub Total")
                 .forEach(columnTitle ->{
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -166,7 +168,8 @@ public class BillServiceImpl implements BillService {
     private boolean validateRequestMap(Map<String, Object> requestMap) {
         return  requestMap.containsKey("name") && requestMap.containsKey("contactNumber") && requestMap.containsKey("email") &&
                 requestMap.containsKey("paymentMethod") && requestMap.containsKey("productDetail") &&
-                requestMap.containsKey("totalAmount");
+                requestMap.containsKey("totalAmount") &&
+                requestMap.containsKey("createdAt");
     }
 
     @Override

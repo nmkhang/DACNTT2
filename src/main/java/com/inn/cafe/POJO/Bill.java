@@ -1,5 +1,6 @@
 package com.inn.cafe.POJO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -49,10 +50,7 @@ public class Bill implements Serializable {
     @Column(name = "createdBy")
     private String createdBy;
 
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "createdAt")
-    private  String createdAt;
-
-
-
-
+    private String createdAt;
 }
