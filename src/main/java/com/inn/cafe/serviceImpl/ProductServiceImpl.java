@@ -96,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
                         return CafeUtils.getResponseEntity("Product Updated Successfully",HttpStatus.OK);
                     }
                     else {
-                        return CafeUtils.getResponseEntity("Product id does not exist.",HttpStatus.OK);
+                        return CafeUtils.getResponseEntity("Id sản phẩm không tồn tại!",HttpStatus.OK);
                     }
                 } else {
                     return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA,HttpStatus.BAD_REQUEST);
@@ -120,7 +120,7 @@ public class ProductServiceImpl implements ProductService {
                     productDao.deleteById(id);
                     return CafeUtils.getResponseEntity("Product Deleted Successfully",HttpStatus.OK);
                 }else {
-                    return CafeUtils.getResponseEntity("Product is does not exist.",HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Id sản phẩm không tồn tại!",HttpStatus.OK);
                 }
             }else {
                 return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
@@ -140,7 +140,7 @@ public class ProductServiceImpl implements ProductService {
                     productDao.updateProductStatus(requestMap.get("status"),Integer.parseInt(requestMap.get("id")));
                     return CafeUtils.getResponseEntity("Product Status Updated Successfully", HttpStatus.OK);
                 }
-                return CafeUtils.getResponseEntity("Product id does not exist",HttpStatus.OK);
+                return CafeUtils.getResponseEntity("Id sản phẩm không tồn tại!",HttpStatus.OK);
             }else {
                 CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
             }

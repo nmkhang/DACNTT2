@@ -7,6 +7,6 @@ public class CafeConstants {
 
     public static final String UNAUTHORIZED_ACCESS = "Unauthorized access.";
 
-    public static final String STORE_LOCATION = "D:\\DACNTT2\\storedFiles\\cafe_stored_files";
+    public static final String STORE_LOCATION = "D:\\BAITAP\\HK1(2023-2024)\\DACNTT2\\cafeteria\\bills";
 
 }

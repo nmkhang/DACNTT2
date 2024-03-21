@@ -90,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
                        categoryDao.save(getCategoryFromMap(requestMap,true));
                        return CafeUtils.getResponseEntity("Category Updated Successfully",HttpStatus.OK);
                    }else {
-                       return CafeUtils.getResponseEntity("Category id does not exist",HttpStatus.OK);
+                       return CafeUtils.getResponseEntity("Id loại không tồn tại!",HttpStatus.OK);
                    }
                 }
                 return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA,HttpStatus.BAD_REQUEST);
@@ -113,7 +113,7 @@ public class CategoryServiceImpl implements CategoryService {
                 return CafeUtils.getResponseEntity("Category Deleted Successfully",HttpStatus.OK);
 
             }
-            return CafeUtils.getResponseEntity("Category id does not exist",HttpStatus.OK);
+            return CafeUtils.getResponseEntity("Id loại không tồn tại!",HttpStatus.OK);
         }catch (Exception ex){
             ex.printStackTrace();
         }

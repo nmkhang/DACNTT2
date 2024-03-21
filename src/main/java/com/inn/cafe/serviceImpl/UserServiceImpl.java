@@ -52,10 +52,10 @@ public class UserServiceImpl implements UserService {
                 User user = userDao.findByEmailId(requestMap.get("email"));
                 if (Objects.isNull(user)) {
                     userDao.save(getUserFromMap(requestMap));
-                    return CafeUtils.getResponseEntity("Successfully Registered.", HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Đăng ký tài khoản thành công!", HttpStatus.OK);
 
                 } else {
-                    return CafeUtils.getResponseEntity("Email already exist.", HttpStatus.BAD_REQUEST);
+                    return CafeUtils.getResponseEntity("Email đã tồn tại. Vui lòng chọn email khác!", HttpStatus.BAD_REQUEST);
                 }
 
             } else {
@@ -101,14 +101,14 @@ public class UserServiceImpl implements UserService {
                     HttpStatus.OK);
                 }
                 else
-                    return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval."+"\"}",
+                    return new ResponseEntity<String>("{\"message\":\""+"Tài khoản đang đợi admin xét duyệt!"+"\"}",
                             HttpStatus.BAD_REQUEST);
             }
 
         }catch (Exception ex){
             log.error("{}",ex);
         }
-        return new ResponseEntity<String>("{\"message\":\""+"Bad Credentials."+"\"}",
+        return new ResponseEntity<String>("{\"message\":\""+"Sai email hoặc mật khẩu!"+"\"}",
                 HttpStatus.BAD_REQUEST);
     }
 
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
                     return CafeUtils.getResponseEntity("User Status Updated Successfully",HttpStatus.OK);
 
                 }else {
-                    return CafeUtils.getResponseEntity("User id dose not exist",HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Id của tài khoản không tồn tại!",HttpStatus.OK);
                 }
 
             }else {
@@ -176,9 +176,9 @@ public class UserServiceImpl implements UserService {
                 if(userObj.getPassword().equals(requestMap.get("oldPassword"))){
                     userObj.setPassword(requestMap.get("newPassword"));
                     userDao.save(userObj);
-                    return CafeUtils.getResponseEntity("Password Update Successfully",HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Đổi mật khẩu thành công!",HttpStatus.OK);
                 }
-                return CafeUtils.getResponseEntity("Incorrect Old Password",HttpStatus.BAD_REQUEST);
+                return CafeUtils.getResponseEntity("Sai mật khẩu cũ!",HttpStatus.BAD_REQUEST);
             }
             return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG,HttpStatus.INTERNAL_SERVER_ERROR);
         }catch (Exception ex){
@@ -207,9 +207,9 @@ public class UserServiceImpl implements UserService {
                 Optional optional = userDao.findById(id);
                 if (!optional.isEmpty()){
                     userDao.deleteById(id);
-                    return CafeUtils.getResponseEntity("User Deleted Successfully",HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Xóa tài khoản thành công!",HttpStatus.OK);
                 }else {
-                    return CafeUtils.getResponseEntity("User is does not exist.",HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Id tài khoản không tồn tại!",HttpStatus.OK);
                 }
             }else {
                 return CafeUtils.getResponseEntity(CafeConstants.UNAUTHORIZED_ACCESS,HttpStatus.UNAUTHORIZED);
