@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             if(jwtFilter.isAdmin()){
                 if(validateProductMap(requestMap, false)){
-                    productDao.save(getProductFromMap(requestMap, false));
+                    productDao.save(getProductFromMap(requestMap,false));
                     return CafeUtils.getResponseEntity("Product Added Successfully.",HttpStatus.OK);
                 }
                 return CafeUtils.getResponseEntity(CafeConstants.INVALID_DATA,HttpStatus.BAD_REQUEST);
@@ -56,7 +58,11 @@ public class ProductServiceImpl implements ProductService {
         return false;
     }
 
-    private Product getProductFromMap(Map<String, String> requestMap, boolean isAdd) {
+    private Product getProductFromMap(Map<String, String> requestMap, boolean isAdd) throws IOException {
+
+
+
+
         Category category = new Category();
         category.setId(Integer.parseInt(requestMap.get("categoryId")));
 

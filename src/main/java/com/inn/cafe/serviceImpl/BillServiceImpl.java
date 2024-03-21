@@ -19,10 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Slf4j
@@ -64,7 +62,7 @@ public class BillServiceImpl implements BillService {
                 Paragraph paragraph = new Paragraph(data+"\n \n",getFont("Data"));
                 document.add(paragraph);
 
-                PdfPTable table = new PdfPTable(5);
+                PdfPTable table = new PdfPTable(6);
                 table.setWidthPercentage(100);
                 addTableHeader(table);
 
@@ -97,11 +95,14 @@ public class BillServiceImpl implements BillService {
         table.addCell((String) data.get("quantity"));
         table.addCell(Double.toString((Double)data.get("price")));
         table.addCell(Double.toString((Double)data.get("total")));
+        table.addCell((String) data.get("createdAt"));
+
+
     }
 
     private void addTableHeader(PdfPTable table) {
         log.info("Inside addTableHeader");
-        Stream.of("Name","Category","Quantity","Price","Sub Total")
+        Stream.of("Name","Category","Quantity","Price","Create At","Sub Total")
                 .forEach(columnTitle ->{
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
@@ -155,6 +156,7 @@ public class BillServiceImpl implements BillService {
             bill.setTotal(Integer.parseInt((String) requestMap.get("totalAmount")));
             bill.setProductDetail((String) requestMap.get("productDetail"));
             bill.setCreatedBy(jwtFilter.getCurrentUser());
+            bill.setCreatedAt((String) requestMap.get("createdAt"));
             billDao.save(bill);
         }catch (Exception ex){
             ex.printStackTrace();
