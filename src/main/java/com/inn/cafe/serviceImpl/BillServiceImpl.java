@@ -2,7 +2,7 @@ package com.inn.cafe.serviceImpl;
 
 import com.inn.cafe.JWT.JwtFilter;
 import com.inn.cafe.POJO.Bill;
-import com.inn.cafe.constents.CafeConstants;
+import com.inn.cafe.constants.CafeConstants;
 import com.inn.cafe.dao.BillDao;
 import com.inn.cafe.service.BillService;
 import com.inn.cafe.utils.CafeUtils;
